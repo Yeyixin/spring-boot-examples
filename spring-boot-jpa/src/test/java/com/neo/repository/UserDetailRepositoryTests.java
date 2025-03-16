@@ -37,11 +37,7 @@ public class UserDetailRepositoryTests {
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 		String formattedDate = dateFormat.format(date);
-		UserDetail userDetail=new UserDetail();
-		userDetail.setUserId(3L);
-		userDetail.setHobby("吃鸡游戏");
-		userDetail.setAge(28);
-		userDetail.setIntroduction("一个爱玩的人");
+		UserDetail userDetail=new UserDetail("123", 28, "小明", UserDetail.Status.ACTIVE, "钓鱼", "一个爱玩的人", "127.0.0.1");
 		userDetailRepository.save(userDetail);
 	}
 

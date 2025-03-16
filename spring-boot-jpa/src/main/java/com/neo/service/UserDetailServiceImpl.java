@@ -4,12 +4,12 @@ import com.mysql.cj.util.StringUtils;
 import com.neo.model.UserDetail;
 import com.neo.param.UserDetailParam;
 import com.neo.repository.UserDetailRepository;
+import jakarta.annotation.Resource;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
-import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 

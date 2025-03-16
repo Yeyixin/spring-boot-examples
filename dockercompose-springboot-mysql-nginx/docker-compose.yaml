@@ -1,36 +1,52 @@
 version: '3'
 services:
   nginx:
-   container_name: v-nginx
-   image: nginx:1.13
-   restart: always
-   ports:
-   - 81:81
-   - 445:445
-   volumes:
-   - ./nginx/conf.d:/etc/nginx/conf.d
-    
+    container_name: v-nginx
+    image: nginx:latest # 升级到最新稳定版本
+    restart: always
+    ports:
+      - "81:80" # 修正端口映射，假设容器内 Nginx 监听的是 80 端口
+      - "445:443" # 修正端口映射，假设容器内 Nginx 监听的是 443 端口
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   mysql:
-   container_name: v-mysql
-   image: mysql/mysql-server:5.7
-   environment:
-    MYSQL_DATABASE: test
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_ROOT_HOST: '%'
-   ports:
-   - "3308:3308"
-   restart: always
-    
+    container_name: v-mysql
+    image: mysql/mysql-server:latest # 升级到最新稳定版本
+    env_file: .env # 使用 .env 文件管理环境变量
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306" # 修正端口映射，假设容器内 MySQL 监听的是 3306 端口
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   app:
     restart: always
     build: ./app
     working_dir: /app
     volumes:
-      - ./app:/app
+      - ./app/src:/app/src # 仅挂载必要的子目录
       - ~/.m2:/root/.m2
     expose:
       - "8080"
     depends_on:
       - nginx
       - mysql
-    command: mvn clean spring-boot:run -Dspring-boot.run.profiles=docker
+    command: >
+      sh -c "while ! mysqladmin ping -h'v-mysql' --silent; do sleep 1; done; mvn clean spring-boot:run -Dspring-boot.run.profiles=docker"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

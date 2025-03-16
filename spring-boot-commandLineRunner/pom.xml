@@ -8,13 +8,13 @@
 	<version>2.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>Spring Boot banner</name>
+	<name>Spring Boot commandLineRunner</name>
 	<description>Spring Boot and commandLineRunner demo</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.0</version>
+		<version>3.1.0</version>
 	</parent>
 
 	<properties>

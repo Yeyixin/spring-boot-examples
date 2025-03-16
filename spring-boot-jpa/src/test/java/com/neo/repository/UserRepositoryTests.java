@@ -4,6 +4,7 @@ import com.neo.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import jakarta.annotation.Resource;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -53,9 +55,9 @@ public class UserRepositoryTests {
 
 	@Test
 	public void testCustomSql() {
-		userRepository.modifyById("neo",3L);
+		int modifyById = userRepository.modifyById("neo", 3L);
 		userRepository.deleteById(3L);
-		userRepository.findByEmail("ff@126.com");
+		Optional<User> byEmail = userRepository.findByEmail("ff@126.com");
 	}
 
 
@@ -63,8 +65,8 @@ public class UserRepositoryTests {
 	public void testPageQuery()  {
 		int page=1,size=2;
 		Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-		userRepository.findALL(pageable);
-		userRepository.findByNickName("aa", pageable);
+		Page<User> userRepositoryAll = userRepository.findAll(pageable);
+		Page<User> nickName = userRepository.findByNickName("aa", pageable);
 	}
 
 }

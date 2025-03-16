@@ -1,12 +1,6 @@
 package com.neo.param;
 
 
-import com.neo.model.Address;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import jakarta.persistence.*;
-
 public class UserDetailParam {
     private String userId;
     private Integer minAge;
